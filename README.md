@@ -28,7 +28,7 @@ SmartLook is a full-featured unisex salon management system built with Django. I
 
 ## 📸 Screenshots
 
-![image](https://github.com/user-attachments/assets/2cd743db-e356-43c0-928d-f69610ff3d79)
+![image](https://github.com/user-attachments/assets/c87c33a3-f78d-4f98-b04f-285f56a51fa0)
 
 
 ## 🔧 Installation
