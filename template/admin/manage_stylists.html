@@ -1,0 +1,30 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}Manage Stylists{% endblock %}
+{% block header %}Manage Stylists{% endblock %}
+{% block content %}
+    <div class="table-container">
+        <h2>Manage Stylists</h2>
+        <a href="{% url 'add_stylist' %}" class="btn btn-success mb-3">Add Stylist</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Available</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stylist in stylists %}
+                <tr>
+                    <td>{{ stylist.name }}</td>
+                    <td>{{ stylist.is_available|yesno:"Yes,No" }}</td>
+                    <td>
+                        <a href="{% url 'update_stylist' stylist.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm" data-url="{% url 'delete_stylist' stylist.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

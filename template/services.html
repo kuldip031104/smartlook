@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "head.html" %}
+
+<body>
+	<!-- Preloader start -->
+	<div class="theme-loader">
+		<div class="spinner">
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+	</div>
+	<!-- Preloader end -->
+	<!-- Header Area Start -->
+	{% include "header.html" %}
+	<!-- Header Area End -->	
+    <!-- Page Banner Start -->
+    <div class="page__banner" data-background="/static/img/bg/page.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="page__banner-title">
+                        <h1>Services</h1>
+                        {% comment %} <div class="page__banner-title-menu">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><span>_</span>Services</li>
+                            </ul>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Banner End -->
+    <!-- Services Page Start -->
+    <div class="services__page section-padding pb-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-1.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Trend Haircut</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-2.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Hair Washing</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 lg-mb-30">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-3.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Hair Coloring</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-4.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Facial hair Trim</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-5.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Lather Shave</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 xl-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-6.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Head Massage</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-13.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Oil Massage</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-14.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Head Massage</a></h4>
+                            <p>Fusce ornare commodo leo, id maximus ex consequat nec. Cras sed arcu vel eros</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Services Page End -->
+	<!-- Working Area Start -->
+	<div class="working__two section-padding">
+		<div class="working__two-shape">
+			<img src="/static/img/shape/hours.png" alt="">
+		</div>
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-xl-7 col-lg-7 lg-mb-30">
+					<div class="working__two-left">
+						<div class="working__two-left-title">
+							<span class="subtitle__two">Working</span>
+							<span class="subtitle__one">Working Hours</span>
+							<h2>Working Hours</h2>
+							<p>Phasellus vitae purus ac urna consequat facilisis a vel leo. Maecenas hendrerit lacinia mollis. Fusce in leo lectus. Phasellus leo mi, pellentesque nec risus malesuada, volutpat porta ligula. Nunc semper,</p>
+						</div>
+						<div class="working__two-left-hours">
+							<ul>
+                                <li>Mon day<span>9: AM - 6: PM</span></li>
+                                <li>Thursday<span>11: AM - 8: PM</span></li>
+                                <li>Wednesday <span>6: AM - 4: PM</span></li>
+                            </ul>
+						</div>
+						<a href="{% url 'contact' %}" class="theme-banner-btn">Booking Appointment<i class="far fa-angle-double-right"></i></a>
+					</div>
+				</div>
+                <div class="col-xl-5 col-lg-5">
+
+					<!-- Calendly inline widget begin -->
+<div class="calendly-inline-widget" data-url="https://calendly.com/aryanpc78?hide_landing_page_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<!-- Calendly inline widget end -->
+                    {% comment %} <img class="img__full" src="/static/img/calendar.jpg" alt=""> {% endcomment %}
+                </div>
+			</div>
+		</div>
+	</div>
+	<!-- Working Area End -->
+	<!-- Team Area Start -->		    
+    <div class="team__area section-padding">
+        <div class="container">
+            <div class="row align-items-end mb-65">
+                <div class="col-xl-7">
+                    <div class="team__area-title">
+                        <span class="subtitle__two">Team</span>
+                        <span class="subtitle__one">Expert Team</span>
+                        <h2>We've lots of Experience Members barbers</h2>                        
+                    </div>
+                </div>
+				<div class="col-xl-5">
+					<div class="team__area-button">
+						<div class="team__area-button-prev swiper-button-prev"><i class="far fa-angle-double-left"></i></div>
+						<div class="team__area-button-next swiper-button-next"><i class="far fa-angle-double-right"></i></div>
+					</div>						
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-xl-12">
+					<div class="swiper team__slider">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<div class="team__area-item">
+									<div class="team__area-item-image">
+										<img src="/static/img/team-1.webp" alt="">
+									</div>
+									<div class="team__area-item-content">
+										<h5>David Fincher</h5>
+										<span>Barber</span>
+										<div class="team__area-item-content-social">
+											<ul>
+												<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+												<li><a href="#"><i class="fab fa-behance"></i></a></li>
+												<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+												<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="team__area-item">
+									<div class="team__area-item-image">
+										<img src="/static/img/team-2.webp" alt="">
+									</div>
+									<div class="team__area-item-content">
+										<h5>Tim Miller</h5>
+										<span>Barber</span>
+										<div class="team__area-item-content-social">
+											<ul>
+												<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+												<li><a href="#"><i class="fab fa-behance"></i></a></li>
+												<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+												<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="team__area-item">
+									<div class="team__area-item-image">
+										<img src="/static/img/team-3.webp" alt="">
+									</div>
+									<div class="team__area-item-content">
+										<h5>Rooney Mara</h5>
+										<span>Barber</span>
+										<div class="team__area-item-content-social">
+											<ul>
+												<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+												<li><a href="#"><i class="fab fa-behance"></i></a></li>
+												<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+												<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="team__area-item">
+									<div class="team__area-item-image">
+										<img src="/static/img/team-4.webp" alt="">
+									</div>
+									<div class="team__area-item-content">
+										<h5>Kevin Spacey</h5>
+										<span>Barber</span>
+										<div class="team__area-item-content-social">
+											<ul>
+												<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+												<li><a href="#"><i class="fab fa-behance"></i></a></li>
+												<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+												<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>            
+        </div>
+    </div>
+	<!-- Team Area End -->		
+	
+		{% include "footer.html" %}
+	   
+	<!-- Scroll Btn Start -->
+	<div class="scroll-up">
+		<svg class="scroll-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102"><path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" /> </svg>
+	</div>
+	<!-- Scroll Btn End -->
+	<!-- Main JS -->
+	<script src="/static/js/jquery-3.6.0.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="/static/js/bootstrap.min.js"></script>
+	<!-- Counter up -->
+	<script src="/static/js/jquery.counterup.min.js"></script>
+	<!-- Popper JS -->
+	<script src="/static/js/popper.min.js"></script>
+	<!-- Magnific JS -->
+	<script src="/static/js/jquery.magnific-popup.min.js"></script>
+	<!-- Swiper JS -->
+	<script src="/static/js/swiper-bundle.min.js"></script>
+	<!-- Waypoints JS -->
+	<script src="/static/js/jquery.waypoints.min.js"></script>
+	<!-- Mean menu -->
+	<script src="/static/js/jquery.meanmenu.min.js"></script>
+	<!-- Custom JS -->
+	<script src="/static/js/custom.js"></script>
+</body>
+
+</html>

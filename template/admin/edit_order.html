@@ -1,0 +1,127 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Edit Order - Shree Laxmi Watch Co.</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="{% static 'assets/vendors/feather/feather.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" />
+    <style>
+        /* Custom Styles */
+        .container-fluid {
+            padding-top: 40px;
+            padding-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            color: #2e3a59;
+            margin-bottom: 30px;
+        }
+
+        .section-title span {
+            background-color: #ffc107;
+            padding: 10px;
+            color: white;
+            font-size: 1.5rem;
+            border-radius: 5px;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .btn-submit {
+            background-color: #ff9800;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .btn-submit:hover {
+            background-color: #fb8c00;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+        }
+
+        .form-control:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+        }
+
+        .alert-info {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h2 class="section-title">
+            <span>Edit Order - {{ order.order_id }}</span>
+        </h2>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="form-container">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- Info alert about the form -->
+                        <div class="alert alert-info">
+                            <strong>Important:</strong> Please ensure to update the delivery status and cancellation status correctly.
+                        </div>
+
+                        <!-- Delivery Status -->
+                        <div class="form-group">
+                            <label for="delivery_status">Delivery Status</label>
+                            <input type="text" class="form-control" id="delivery_status" name="delivery_status" value="{{ form.delivery_status.value }}" required>
+                        </div>
+
+                        <!-- Cancel Order -->
+                        <div class="form-group">
+                            <label for="is_cancel">Cancel Order</label>
+                            <select class="form-control" id="is_cancel" name="is_cancel" required>
+                                <option value="True" {% if form.is_cancel.value == 'True' %}selected{% endif %}>Yes</option>
+                                <option value="False" {% if form.is_cancel.value == 'False' %}selected{% endif %}>No</option>
+                            </select>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-submit btn-block">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

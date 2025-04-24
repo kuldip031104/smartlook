@@ -1,0 +1,344 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static '/vendors/feather/feather.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/ti-icons/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static '/vendors/images/favicon.ico' %}" />
+    <style>
+        /* Sidebar */
+      .sidebar {
+        width: 250px;
+        background-color: #222;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        padding-top: 60px;
+        transition: width 0.3s;
+        overflow-y: auto;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar ul li {
+        padding: 15px;
+        border-bottom: 1px solid #444;
+      }
+
+      .sidebar ul li a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        transition: background 0.3s;
+      }
+
+      .sidebar ul li a:hover {
+        background: #009688;
+      }
+        .main-panel {
+            margin-left: 250px;
+            flex-grow: 1;
+        }
+
+        .content-wrapper {
+            padding: 20px;
+            margin-top: 70px; /* Space for navbar */
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e3a59;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .btn-submit {
+            background-color: #5c6bc0;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            border-color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #3f51b5;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        .image-wrapper {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .image-wrapper img {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #image-preview {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper">
+            <!-- Sidebar -->
+            {% include 'admin/partials/sidebar.html' %}
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="form-container">
+                        <h2 class="form-title">
+                            {% if product %}
+                                Edit Product
+                            {% else %}
+                                Add New Product
+                            {% endif %}
+                        </h2>
+
+                        <!-- Custom message -->
+                        <div class="alert alert-info text-center">
+                            <strong>Important:</strong> Please ensure the product details are correct before submitting.
+                        </div>
+
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Display form errors if any -->
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                <li>{{ field.label }}:
+                                                    <ul>
+                                                        {% for error in field.errors %}
+                                                            <li>{{ error }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <!-- Product Name -->
+                            <div class="mb-3">
+                                <label for="product_name" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="product_name" name="product_name" value="{{ product.product_name }}" placeholder="Enter product name" required>
+                            </div>
+
+                            <!-- Category (Unchanged) -->
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select class="form-control" id="category" name="cat_name" onchange="loadSubcategories()" required>
+                                    <option value="">Select Category</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.cat_id }}" {% if product and product.sub_cat_id.cat_id == category.cat_id %} selected {% endif %}>{{ category.cat_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Subcategory -->
+                            <div class="mb-3">
+                                <label for="subcategory" class="form-label">Subcategory</label>
+                                <select class="form-control" id="subcategory" name="sub_cat_id" required>
+                                    <option value="">Select Subcategory</option>
+                                    {% for subcategory in subcategories %}
+                                        <option value="{{ subcategory.sub_cat_id }}" {% if product and product.sub_cat_id.sub_cat_id == subcategory.sub_cat_id %} selected {% endif %}>{{ subcategory.cat_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Brand -->
+                            <div class="mb-3">
+                                <label for="brand" class="form-label">Brand</label>
+                                <select class="form-control" id="brand_id" name="brand_id" required>
+                                    <option value="">Select Brand</option>
+                                    {% for brand in brands %}
+                                        <option value="{{ brand.brand_id }}" {% if product and product.brand_id.brand_id == brand.brand_id %} selected {% endif %}>{{ brand.brand_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Product Price -->
+                            <div class="mb-3">
+                                <label for="product_price" class="form-label">Product Price</label>
+                                <input type="number" class="form-control" id="product_price" name="product_price" step="0.01" value="{{ product.product_price }}" placeholder="Enter product price" required>
+                            </div>
+
+                            <!-- First Product Image -->
+                            <div class="mb-3">
+                                <label for="product_images_first" class="form-label">First Product Image</label>
+                                <input type="file" class="form-control" id="product_images_first" name="product_images" accept="image/*" {% if not product %} required {% endif %}>
+                                {% if product and product.images.first %}
+                                    <div id="image-preview-first">
+                                        <img src="{{ product.images.first.image_path.url }}" alt="Product Image" class="img-fluid" width="100">
+                                    </div>
+                                {% else %}
+                                    <div id="image-preview-first"></div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Other Product Images -->
+                            <div class="mb-3">
+                                <label for="product_images_other" class="form-label">Other Product Images</label>
+                                <input type="file" class="form-control" id="product_images_other" name="product_images" accept="image/*" multiple>
+                                {% if product %}
+                                    <div id="image-preview-other">
+                                        {% for image in product.images.all %}
+                                            <img src="{{ image.image_path.url }}" alt="Other Product Image" class="img-fluid" width="100">
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div id="image-preview-other"></div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Offer (Unchanged) -->
+                            <div class="mb-3">
+                                <label for="offer" class="form-label">Offer (optional)</label>
+                                <select class="form-control" id="offer" name="offer">
+                                    <option value="">Select Offer</option>
+                                    {% for offer in offers %}
+                                        <option value="{{ offer.offer_id }}" {% if product and product.offer_details_set.first and product.offer_details_set.first.offer_id.offer_id == offer.offer_id %} selected {% endif %}>
+                                            {{ offer.offer_name }} - {{ offer.offer_discount }}% OFF
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Product Description -->
+                            <div class="mb-3">
+                                <label for="product_description" class="form-label">Product Description</label>
+                                <textarea class="form-control" id="product_description" name="product_description" rows="5" placeholder="Enter product description" required>{{ product.product_description }}</textarea>
+                            </div>
+
+                            <!-- Product Quantity -->
+                            <div class="mb-3">
+                                <label for="product_quantity_on_hand" class="form-label">Product Quantity</label>
+                                <input type="number" class="form-control" id="product_quantity_on_hand" name="product_quantity_on_hand" value="{{ product.product_quantity_on_hand }}" placeholder="Enter stock quantity" required>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn-submit btn-block">
+                                {% if product %}
+                                    Save Changes
+                                {% else %}
+                                    Add Product
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <span>© 2024 Shree Laxmi Watch Co. Designed by Sim Lalit College</span>
+                </footer>
+            </div>
+        </div>
+
+        <!-- JS Files -->
+        <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+        <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+        <script src="{% static 'assets/js/template.js' %}"></script>
+    </div>
+    {% comment %} <script>
+        // Function to load subcategories based on category selection
+        function loadSubcategories() {
+            var categoryId = document.getElementById("category").value;
+            if (!categoryId) {
+                return;
+            }
+            $.ajax({
+                //url: "{% url 'load_subcategories' %}",  // Django URL for loading subcategories
+                data: { 'category_id': categoryId },
+                success: function(response) {
+                    var subcategorySelect = document.getElementById("subcategory");
+                    // Clear previous subcategories
+                    subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+                    // Populate new subcategories
+                    response.subcategories.forEach(function(subcategory) {
+                        subcategorySelect.innerHTML += '<option value="' + subcategory.sub_cat_id + '">' + subcategory.sub_cat_name + '</option>';
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading subcategories:", error);
+                }
+            });
+        }
+
+        // Preview images on file selection
+        function previewImages(inputId, previewId) {
+            document.getElementById(inputId).addEventListener('change', function(event) {
+                const files = event.target.files;
+                const previewContainer = document.getElementById(previewId);
+                previewContainer.innerHTML = '';
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.classList.add('image-wrapper');
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.alt = `Image ${i + 1}`;
+                    img.style.maxWidth = '100px';
+                    img.style.marginRight = '10px';
+
+                    const imageNumber = document.createElement('span');
+                    imageNumber.textContent = `Image ${i + 1}`;
+                    imageNumber.style.fontSize = '14px';
+                    imageNumber.style.marginLeft = '10px';
+
+                    imageWrapper.appendChild(img);
+                    imageWrapper.appendChild(imageNumber);
+                    previewContainer.appendChild(imageWrapper);
+                }
+            });
+        }
+
+        previewImages('product_images_first', 'image-preview-first');
+        previewImages('product_images_other', 'image-preview-other');
+    </script> {% endcomment %}
+</body>
+
+</html>

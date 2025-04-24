@@ -1,0 +1,771 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Dashboard</title>
+
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static '/vendors/feather/feather.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'assets//vendors/datatables.net-bs5/dataTables.bootstrap5.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/js/select.dataTables.min.css' %}">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static '/vendors/css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{% static '/vendors/images/favicon.ico' %}" />
+    <style>
+ /* General Styles */
+body, html {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* Admin Panel Layout */
+.page-body-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #222;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding-top: 60px;
+    transition: width 0.3s;
+    overflow-y: auto;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    border-bottom: 1px solid #444;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background: #009688;
+}
+
+/* Main Content */
+.main-panel {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* TOP NAVBAR */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 250px; /* Adjusted to align with sidebar */
+    width: calc(100% - 250px);
+    height: 60px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Search Bar */
+.search-box {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Profile and Logout */
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-icons a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-icons a:hover {
+    color: #009688;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    margin: 80px 0 30px; /* Adjusted margin to prevent overlap with navbar */
+    font-size: 24px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-panel {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+
+    .top-navbar {
+        left: 200px;
+        width: calc(100% - 200px);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+        padding-top: 15px;
+    }
+
+    .sidebar ul li {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .sidebar ul li a {
+        font-size: 12px;
+    }
+
+    .main-panel {
+        margin-left: 60px;
+        width: calc(100% - 60px);
+    }
+
+    .top-navbar {
+        left: 60px;
+        width: calc(100% - 60px);
+    }
+
+    .search-box input {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        position: absolute;
+        width: 100%;
+        height: auto;
+    }
+
+    .main-panel {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .top-navbar {
+        left: 0;
+        width: 100%;
+        height: 50px;
+        padding: 0 10px;
+    }
+
+    .search-box input {
+        max-width: 150px;
+    }
+
+    .dashboard-header {
+        margin-top: 100px;
+    }
+}
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper" style="display: flex; height: 100vh;">
+            <!-- Sidebar -->
+            {% include 'admin/partials/sidebar.html' %}
+            
+
+            <!-- Content -->
+            <div class="main-panel" style="margin-left: 250px; height: 100vh; overflow-y: auto;">
+                <div class="content-wrapper" style="height: 100%; overflow-y: auto; padding: 20px;">
+                    <div class="dashboard-header">
+                        <span>Welcome to the Admin Dashboard</span>
+                    </div>
+                    {% if messages %}
+                    <div class="alert alert-success">
+                        {% for message in messages %}
+                        <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <!-- Overview Boxes -->
+                    <div class="row">
+
+                        <!-- Total Orders -->
+                        <div class="col-md-3">
+                             <a href="{% url 'orders' %}" style="text-decoration: none;">
+                                <div class="card" style="background-color: #4caf50; color: white;">
+                                    <div class="card-header" style="background-color: #388e3c; color: white;">
+                                        Total Orde
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-text">{{total_orders}}</h3>
+                                    </div>
+                                </div>
+                            </a>  
+                        </div>
+                        
+                        <!-- Total Products -->
+                        <div class="col-md-3">
+                             <a href="{% url 'admin_menu' %}" style="text-decoration: none;">
+                                <div class="card" style="background-color: #2196f3; color: white;">
+                                    <div class="card-header" style="background-color: #1976d2; color: white;">
+                                        Total Menu Items
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-text">{{total_products}}</h3>
+                                    </div>
+                                </div>
+                            </a> 
+                        </div>
+                        
+                        {% comment %} {% load humanize %} {% endcomment %}
+                        <!-- Total Sales -->
+                        <div class="col-md-3">
+                            <a href="" style="text-decoration: none;">
+                                <div class="card" style="background-color: #f44336; color: white;">
+                                    <div class="card-header" style="background-color: #d32f2f; color: white;">
+                                        Total Sales
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- <h3 class="card-text">₹{{ total_sales_inr|intcomma }}</h3> -->
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Total Users -->
+                        <div class="col-md-3">
+                            <!-- <a href="{% url 'user_list' %}" style="text-decoration: none;"> -->
+                                <div class="card" style="background-color: #ff9800; color: white;">
+                                    <div class="card-header" style="background-color: #f57c00; color: white;">
+                                        Total Users
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-text">{{total_users}}</h3>
+                                    </div>
+                                </div>
+                            </a> 
+                        </div>
+                        
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="row">
+                        <!-- Monthly Sales Chart -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Sales Over Time (Line Chart)
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="salesOverTimeChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Top Products by Sales (Bar Chart)
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="topProductsSalesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Orders by Status (Pie Chart)
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="ordersByStatusChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Customer Segmentation (Pie Chart)
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="customerSegmentationChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    CAC vs. CLV (Bar/Line Chart)
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="cacVsClvChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Inventory Levels (Bar/Line Chart)
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="inventoryLevelsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    Revenue by Payment Method (Pie Chart)
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="revenueByPaymentMethodChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Recent Orders
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="recentOrdersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Customer Name</th>
+                                                <th>Status</th>
+                                                <th>Amount</th>
+                                                <th>Order Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Loop through recent orders dynamically -->
+                                            {% for order in recent_orders %}
+                                            <tr>
+                                                <td>#{{ order.order_id }}</td>
+                                                <td>{{ order.username.firstname }} {{ order.username.lastname }}</td>  <!-- Showing first and last name -->
+                                                <!-- Loop through the associated order details to get products -->
+                                               
+                                                
+                                                <!-- Display delivery status as badge -->
+                                                <td>
+                                                    <span class="badge 
+                                                        {% if order.delivery_status == 'Completed' %}bg-success
+                                                        {% elif order.delivery_status == 'Pending' %}bg-warning
+                                                        {% elif order.delivery_status == 'Cancelled' %}bg-danger
+                                                        {% else %}bg-secondary
+                                                        {% endif %}
+                                                    ">{{ order.delivery_status }}</span>
+                                                </td>
+                                                <!-- Display order amount -->
+                                                <td>&#8377;{{ order.order_amount }}</td>
+                                                <td>{{ order.order_date_time|date:"Y-m-d" }}</td>
+                                                <td>
+                                                    <!-- Actions (View, Edit, Delete) -->
+                                                    <a href="{% url 'view_order' order.order_id %}" class="btn btn-info btn-sm">View</button>
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="7" class="text-center">No recent orders available.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              <!-- {% include 'admin_footer.html' %}   -->
+
+            </div>
+        </div>
+    </div> 
+    <!-- JavaScript for Charts -->
+    <script>
+        // Sales Over Time (Line Chart)
+        var salesOverTimeChart = new Chart(document.getElementById('salesOverTimeChart'), {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [{
+                    label: 'Sales ($)',
+                    data: [150, 200, 250, 300, 350, 400],
+                    borderColor: '#5c6bc0',
+                    backgroundColor: 'rgba(92, 107, 192, 0.3)', 
+                    borderWidth: 3,
+                    pointBackgroundColor: '#5c6bc0',
+                    pointRadius: 5,
+                    pointHoverBackgroundColor: '#ffffff',
+                    pointHoverBorderColor: '#5c6bc0',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        displayColors: false,
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            fontColor: '#2e3a59'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#2e3a59'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#2e3a59'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Orders by Status (Pie Chart)
+       // Orders by Status (Pie Chart) with 3D Effects and Tooltip Styling
+var ordersByStatusChart = new Chart(document.getElementById('ordersByStatusChart'), {
+    type: 'pie',
+    data: {
+        labels: ['Completed', 'Pending', 'Cancelled', 'Returned'],
+        datasets: [{
+            label: 'Order Status',
+            data: [300, 100, 50, 50],
+            backgroundColor: ['#66bb6a', '#ff9800', '#f44336', '#009688'],
+            borderColor: ['#fff', '#fff', '#fff', '#fff'],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderRadius: 5,
+                padding: 10,
+                displayColors: false,
+            },
+            legend: {
+                position: 'top',
+                labels: {
+                    fontColor: '#2e3a59'
+                }
+            }
+        }
+    }
+});
+
+
+        // Top Products by Sales (Bar Chart)
+        var topProductsSalesChart = new Chart(document.getElementById('topProductsSalesChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
+                datasets: [{
+                    label: 'Sales ($)',
+                    data: [1200, 1500, 800, 2000, 1800],
+                    backgroundColor: '#66bb6a',
+                    borderColor: '#66bb6a',
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    hoverBackgroundColor: '#558b2f',
+                    hoverBorderColor: '#4caf50',
+                    hoverBorderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        displayColors: false,
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            fontColor: '#2e3a59'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#2e3a59'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#2e3a59',
+                            beginAtZero: true
+                        }
+                    }
+                }
+            }
+        });
+    // Customer Segmentation (Pie Chart)
+    var customerSegmentationChart = new Chart(document.getElementById('customerSegmentationChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Segment A', 'Segment B', 'Segment C', 'Segment D'],
+            datasets: [{
+                label: 'Customer Segmentation',
+                data: [300, 200, 150, 50],
+                backgroundColor: ['#ffb74d', '#8e24aa', '#4caf50', '#009688'],
+                borderColor: ['#fff', '#fff', '#fff', '#fff'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderRadius: 5,
+                    padding: 10,
+                    displayColors: false,
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        fontColor: '#2e3a59'
+                    }
+                }
+            }
+        }
+    });
+
+    // CAC vs. CLV (Bar/Line Chart)
+    var cacVsClvChart = new Chart(document.getElementById('cacVsClvChart'), {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Customer Acquisition Cost (CAC)',
+                data: [150, 180, 120, 200, 170],
+                backgroundColor: '#ff7043',
+                borderColor: '#ff7043',
+                borderWidth: 2,
+                borderRadius: 5,
+                hoverBackgroundColor: '#f4511e',
+                hoverBorderColor: '#ff3d00',
+                hoverBorderWidth: 3
+            }, {
+                label: 'Customer Lifetime Value (CLV)',
+                data: [500, 600, 450, 700, 650],
+                backgroundColor: '#4caf50',
+                borderColor: '#4caf50',
+                borderWidth: 2,
+                borderRadius: 5,
+                hoverBackgroundColor: '#388e3c',
+                hoverBorderColor: '#2c6c2b',
+                hoverBorderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    displayColors: false,
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        fontColor: '#2e3a59'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#2e3a59'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#2e3a59',
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+    });
+
+    // Inventory Levels (Bar/Line Chart)
+    var inventoryLevelsChart = new Chart(document.getElementById('inventoryLevelsChart'), {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Inventory Level (Units)',
+                data: [50, 75, 100, 80],
+                borderColor: '#1976d2',
+                backgroundColor: 'rgba(25, 118, 210, 0.2)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#1976d2',
+                pointRadius: 5,
+                pointHoverBackgroundColor: '#ffffff',
+                pointHoverBorderColor: '#1976d2'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    displayColors: false,
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        fontColor: '#2e3a59'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#2e3a59'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#2e3a59'
+                    }
+                }
+            }
+        }
+    });
+
+    // Revenue by Payment Method (Pie Chart)
+    var revenueByPaymentMethodChart = new Chart(document.getElementById('revenueByPaymentMethodChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Credit Card', 'PayPal', 'Bank Transfer', 'Cash on Delivery'],
+            datasets: [{
+                label: 'Revenue by Payment Method',
+                data: [4000, 3000, 1000, 2000],
+                backgroundColor: ['#ff7043', '#42a5f5', '#9ccc65', '#ffca28'],
+                borderColor: ['#fff', '#fff', '#fff', '#fff'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderRadius: 5,
+                    padding: 10,
+                    displayColors: false,
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        fontColor: '#2e3a59'
+                    }
+                }
+            }
+        }
+    });
+    </script>
+</body>
+
+</html> 

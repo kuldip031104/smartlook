@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if offer_id %}Edit Offer{% else %}Add Offer{% endif %} - Shree Laxmi Watch Co.</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/feather/feather.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" />
+    <style>
+        .main-panel {
+            margin-left: 250px;
+            flex-grow: 1;
+        }
+
+        .content-wrapper {
+            padding: 20px;
+            margin-top: 70px; /* Space for navbar */
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e3a59;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .btn-submit {
+            background-color: #5c6bc0;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            border-color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #3f51b5;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        .image-wrapper {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .image-wrapper img {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #image-preview {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper">
+            <!-- Sidebar -->
+            {% include 'partials/sidebar.html' %}
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="form-container">
+                        <h2 class="form-title">
+                            {% if offer_id %}
+                                Edit Offer
+                            {% else %}
+                                Add New Offer
+                            {% endif %}
+                        </h2>
+
+                        <!-- Custom message -->
+                        <div class="alert alert-info text-center">
+                            <strong>Important:</strong> Please ensure the offer details are correct before submitting.
+                        </div>
+
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Display form errors if any -->
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                <li>{{ field.label }}:
+                                                    <ul>
+                                                        {% for error in field.errors %}
+                                                            <li>{{ error }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <!-- Offer Name -->
+                            <div class="mb-3">
+                                <label for="offer_name" class="form-label">Offer Name</label>
+                                <input type="text" class="form-control" id="offer_name" name="offer_name" value="{{ form.offer_name.value }}" placeholder="Enter Offer Name" required>
+                            </div>
+
+                            <!-- Discount Percentage -->
+                            <div class="mb-3">
+                                <label for="offer_discount" class="form-label">Discount Percentage</label>
+                                <input type="number" class="form-control" id="offer_discount" name="offer_discount" value="{{ form.offer_discount.value }}" placeholder="Enter Discount Percentage" required>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="mb-3">
+                                <label for="offer_start_date" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="offer_start_date" name="offer_start_date" value="{{ form.offer_start_date.value|date:'Y-m-d' }}" required>
+                            </div>
+
+                            <!-- End Date -->
+                            <div class="mb-3">
+                                <label for="offer_end_date" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="offer_end_date" name="offer_end_date" value="{{ form.offer_end_date.value|date:'Y-m-d' }}" required>
+                            </div>
+
+                            {% if offer.offer_image %}
+                            <!-- Display Current Image -->
+                            <div class="mb-3">
+                                <label for="current_image" class="form-label">Current Image</label>
+                                <div>
+                                    <img src="{{ offer.offer_image.url }}" alt="Current Image" style="max-width: 100px; margin-bottom: 10px;">
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Image Upload Section -->
+                            <div class="mb-3">
+                                <label for="offer_image" class="form-label">Offer Image (Optional)</label>
+                                <input type="file" class="form-control-file" id="offer_image" name="offer_image" accept="image/*">
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn-submit btn-block">
+                                {% if offer_id %}
+                                    Save Changes
+                                {% else %}
+                                    Add Offer
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <span>© 2024 Shree Laxmi Watch Co. Designed by Sim Lalit College</span>
+                </footer>
+            </div>
+        </div>
+
+        <!-- JS Files -->
+        <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+        <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+        <script src="{% static 'assets/js/template.js' %}"></script>
+    </div>
+</body>
+
+</html>

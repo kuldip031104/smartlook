@@ -1,0 +1,11 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}{{ slot.id|default:"Add Slot" }}{% endblock %}
+{% block header %}{{ slot.id|default:"Add Slot" }}{% endblock %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{% url 'manage_slots' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Manage Order Items</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Order</th>
+                <th>Product</th>
+                
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.order.id }}</td>
+                <td>
+                    {% if item.product %}
+                        {{ item.product.name }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                
+                <td>{{ item.quantity }}</td>
+                <td>&#8377;{{ item.price }}</td>
+                <td>
+                    <form action="{% url 'delete_order_item' item.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

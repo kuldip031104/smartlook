@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/static/css/profile.css" />
+    {% include 'head.html' %}
+    <title>User Profile - Smartlook</title>
+    
+  </head>
+  <body>
+    <div class="container-xxl bg-white p-0">
+      <!-- Navbar & Hero -->
+      <div class="container-xxl position-relative p-0">
+        {% include "header.html" %}
+        <div class="container-xxl py-5 bg-dark hero-header mb-5">
+          <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">
+              Profile
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Section -->
+      <div class="profile-container">
+        <h2>Your Profile</h2>
+        {% if messages %} {% for message in messages %}
+        <p
+          class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}"
+        >
+          {{ message }}
+        </p>
+        {% endfor %} {% endif %}
+
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Username:</strong> {{ username }}
+          </li>
+          <li class="list-group-item"><strong>Email:</strong> {{ email }}</li>
+          <li class="list-group-item"><strong>Gender:</strong> {{ gender }}</li>
+          <li class="list-group-item">
+            <strong>Phone:</strong> {{ phone_number }}
+          </li>
+        </ul>
+        <a href="{% url 'edit_profile' %}" class="btn-edit">Edit Profile</a>
+      </div>
+
+      <!-- Footer -->
+      {% include 'footer.html' %}
+    </div>
+  </body>
+</html>
+
+

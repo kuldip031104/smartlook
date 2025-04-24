@@ -1,0 +1,49 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Service List - Shree Laxmi Watch Co.{% endblock %}
+{% block header %}Service List{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>Service List</h2>
+
+    <a href="{% url 'add-service' %}" class="btn btn-success mb-3">Add New Service</a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Subcategory</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                <tr>
+                    <td>{{ service.id }}</td>
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.subcategory.name }}</td>
+                    <td>
+                        <a href="{% url 'edit-service' service.id %}" class="btn btn-primary btn-sm">Edit</a>
+
+                        <form method="post" action="{% url 'delete-service' service.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to delete this service?')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No services available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

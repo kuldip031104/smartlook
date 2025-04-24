@@ -1,0 +1,41 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Appointments - Shree Laxmi Watch Co.{% endblock %}
+{% block header %}Appointments{% endblock %}
+{% block content %}
+    <div class="category-table">
+        <h2>Appointments</h2>
+        <a href="{% url 'appointment_add' %}" class="btn btn-success">Add New Appointment</a>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Stylist</th>
+                        <th>Date</th>
+                        <th>Slot</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.name }}</td>
+                        <td>{{ appointment.email }}</td>
+                        <td>{{ appointment.phone_number }}</td>
+                        <td>{{ appointment.stylist.name }}</td>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.slot }}</td>
+                        <td>
+                            <a href="{% url 'appointment_edit' appointment.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="#" class="btn btn-danger btn-sm" data-url="{% url 'appointment_delete' appointment.pk %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

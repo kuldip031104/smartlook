@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartlook Signup</title>
+    <link rel="stylesheet" href="/static/css/signup.css">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png">
+    <!-- SweetAlert2 Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Registration</h2>
+        <form id="signupForm">
+            {% csrf_token %}
+            <div class="input-box">
+                <input type="text" placeholder="Enter your name" name="name" required>
+            </div>
+            <div class="input-box">
+                <input type="text" placeholder="Enter your email" name="email" required>
+            </div>
+            <div class="input-box">
+                <input type="tel" placeholder="Enter your contact number" name="phone" required>
+            </div>
+            <div class="gender-box">
+                <h3>Select Gender:</h3>
+                <input type="radio" id="male" name="gender" value="Male">
+                <label for="male">Male</label>
+
+                <input type="radio" id="female" name="gender" value="Female">
+                <label for="female">Female</label>
+
+                <input type="radio" id="other" name="gender" value="Other">
+                <label for="other">Other</label>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Create password" name="password" required>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Confirm password" name="confpass" required>
+            </div>
+            <div class="input-box button" style="border-bottom:none;">
+                <input type="submit" value="Register Now">
+            </div>
+            <div class="text">
+                <p>Already have an account? <a href="{% url 'login' %}">Login now</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#signupForm").submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'signup' %}",
+                    data: formData,
+                    success: function (response) {
+                        if (response.status === "error") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                html: response.messages.join("<br>")
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Success!",
+                                text: response.message
+                            }).then(() => {
+                                window.location.href = "{% url 'login' %}";
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: "Something went wrong. Please try again."
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

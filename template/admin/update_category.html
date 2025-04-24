@@ -1,0 +1,15 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Update Category{% endblock %}
+{% block header %}Update Category{% endblock %}
+
+{% block content %}
+    <h2>Update Category</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success">Update Category</button>
+        <a href="{% url 'manage_categories' %}" class="btn btn-secondary ml-2">Cancel</a>
+    </form>
+{% endblock %}

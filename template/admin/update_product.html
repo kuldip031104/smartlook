@@ -1,0 +1,20 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Update Product{% endblock %}
+{% block header %}Update Product{% endblock %}
+{% block content %}
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-success">Update Product</button>
+        <a href="{% url 'manage_products' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

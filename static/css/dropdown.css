@@ -1,0 +1,59 @@
+/* Dropdown Container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* User Icon (Same Size as Other Icons) */
+.user-icon {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem; /* Match other icons */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Match cart icon size */
+    height: 40px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+/* Add Hover Effect */
+.user-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 5px 0;
+    z-index: 1000;
+}
+
+/* Show dropdown on hover or focus */
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+    display: block;
+}
+
+/* Dropdown Items */
+.dropdown-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: black;
+    text-decoration: none;
+    font-size: 14px; /* Consistent text size */
+    transition: background 0.3s;
+}
+
+/* Hover Effect */
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}

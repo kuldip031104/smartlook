@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+{% include "head.html" %}
+<body>
+	<!-- Preloader start -->
+	<div class="theme-loader">
+		<div class="spinner">
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+	</div>
+	<!-- Preloader end -->
+		{% include "header.html" %}
+	<!-- Banner Area Start -->
+	<div class="home__banner">
+		<div class="banner__slide swiper banner-slide">
+			<div class="swiper-wrapper">
+				<div class="banner__slide-area swiper-slide" data-swiper-autoplay="6000">	
+					<div class="banner__slide-area-image" data-background="/static/img/bg/banner-bg-1.jpg"></div>
+					<div class="container">
+						<div class="row align-items-center">
+							<div class="col-xl-8 order-last order-lg-first">
+								<div class="banner__slide-content">
+									<span class="subtitle__one" data-animation="fadeInLeft" data-delay=".4s">Welcome to Our K Royal Salon</span>
+									<h1 data-animation="fadeInLeft" data-delay=".6s">Best Hair Salon for a Professional Look</h1>
+									<div class="banner__slide-content-button" data-animation="fadeInLeft" data-delay=".9s">
+										<a href="{% url 'about' %}" class="theme-banner-btn">Read More<i class="far fa-angle-double-right"></i></a> 
+										<a href="{% url 'productcategory' %}" class="theme-border-btn">View all Products<i class="far fa-angle-double-right"></i></a> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="banner__slide-right" data-animation="fadeInRight" data-delay="1.3s">
+						{% comment %} <img src="/static/img/bg/banner-1.png" alt=""> {% endcomment %}
+					</div>
+				</div>
+				<div class="banner__slide-area swiper-slide" data-swiper-autoplay="6000">	
+					<div class="banner__slide-area-image" data-background="/static/img/bg/banner-bg-2.jpg"></div>
+					<div class="container">
+						<div class="row align-items-center">
+							<div class="col-xl-8 order-last order-lg-first">
+								<div class="banner__slide-content">
+									<span class="subtitle__one" data-animation="fadeInLeft" data-delay=".4s">Welcome to Our K Royal Salon</span>
+									<h1 data-animation="fadeInLeft" data-delay=".6s">Best Haircut Salon in the City</h1>
+									<div class="banner__slide-content-button" data-animation="fadeInLeft" data-delay=".9s">
+										<a href="{% url 'about' %}" class="theme-banner-btn">Read More<i class="far fa-angle-double-right"></i></a> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="banner__slide-right" data-animation="fadeInRight" data-delay="1.3s">
+						{% comment %} <img src="/static/img/bg/banner-2.png" alt=""> {% endcomment %}
+					</div>
+				</div>
+			</div>
+			<div class="home__banner-button">
+				<div class="home__banner-button-prev swiper-button-prev"><i class="far fa-long-arrow-left"></i></div>
+				<div class="home__banner-button-next swiper-button-next"><i class="far fa-long-arrow-right"></i></div>
+			</div>
+		</div>
+	</div>
+	<!-- Banner Area End -->	
+	<!-- About Area Start -->	
+	<div class="about__area section-padding">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-xl-6 col-lg-6 lg-mb-30">
+					<div class="about__area-left">
+						<div class="about__area-left-image">
+							<img src="/static/img/about/about-1.webp" alt="">
+							<div class="about__area-left-image-two">
+								<img class="img__full" src="/static/img/about/about-2.webp" alt="">
+							</div>
+							<div class="about__area-left-image-three">
+								<img class="img__full" src="/static/img/about/about-3.webp" alt="">
+							</div>
+							<div class="about__area-left-image-shape">
+								<img class="img__full" src="/static/img/shape/about.png" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-6">
+					<div class="about__area-right">
+						<div class="about__area-right-title">
+							<span class="subtitle__two">About</span>
+							<span class="subtitle__one">About Us</span>
+							<h2>Best Haircut Salons For Men Women</h2>
+							<p>At K Royal Unisex Salon , we believe that a great haircut is more than just a style—it’s an expression of confidence. Our salon specializes in delivering expert haircuts, grooming services, and premium styling for both men and women.</p>
+						</div>
+						<div class="about__area-right-bottom mt-35">
+							<h5>We're a leading independent salon in India, offering everything from haircuts to exfoliation and</h5>
+							<a href="{% url 'about' %}" class="theme-btn mt-50">Read More<i class="far fa-angle-double-right"></i></a> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- About Area End -->	
+	<!-- Page Banner End -->
+    {% comment %} <!-- Services Page Start -->
+    <div class="services__page section-padding pb-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-1.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Trend Haircut</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look. </p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-2.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Hair Washing</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look.</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 lg-mb-30">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-3.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Hair Coloring</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look. </p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-4.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Facial hair Trim</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look.</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-5.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Lather Shave</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look.</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 xl-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-6.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Head Massage</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look.</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 md-mb-25">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-13.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Oil Massage</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look. </p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="services__page-item">
+                        <div class="services__page-item-icon">
+                            <img src="/static/img/icon/services-14.png" alt="">
+                        </div>
+                        <div class="services__page-item-content">
+                            <h4><a href="{% url 'servicesdetails' %}">Head Massage</a></h4>
+                            <p>Get a stylish haircut that suits your personality and enhances your look.</p>
+                            <a href="{% url 'servicesdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Services Page End -->	 {% endcomment %}
+	<!-- Booking Area Start -->	
+	<div class="booking__area section-padding" data-background="/static/img/bg/booking.webp">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-xl-7 col-lg-8 lg-mb-30">
+					<div class="booking__area-title lg-t-center">
+						<span class="subtitle__two">Booking</span>
+						<span class="subtitle__one">Booking Now</span>
+						<h2>Book your appointment online</h2>
+						<a href="{% url 'appointment' %}" class="theme-banner-btn mt-40">Booking Appoitment<i class="far fa-angle-double-right"></i></a> 
+					</div>					
+				</div>
+				<div class="col-xl-5 col-lg-4">
+					<div class="booking__area-right t-right lg-t-center">
+						<div class="booking__area-right-contact">
+							<div class="booking__area-right-contact-icon">
+								<i class="fal fa-phone-alt"></i>
+							</div>
+							<div class="booking__area-right-contact-content">
+								<span>Call Mow</span>
+								<h4><a href="tel:+123(568)584">+91 7623848053</a></h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Booking Area End -->	
+	
+	<!-- Working Area Start -->
+	<!-- Working Area End -->	
+	<!-- Testimonial Area Start -->
+	<!-- Testimonial Area End -->	
+	<!-- Blog Area Start -->	
+	{% comment %} <div class="blog__area section-padding">
+		<div class="container">
+			<div class="row mb-65">
+				<div class="col-xl-12">
+					<div class="blog__area-title">
+						<span class="subtitle__two">Our News</span>
+						<span class="subtitle__one">Blog and Article</span>
+						<h2>Read Our BLog and News</h2>
+					</div>					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-4 col-lg-6 col-md-6 xl-mb-30">
+					<div class="blog__area-item">
+						<div class="blog__area-item-image">
+							<a href="{% url 'blogdetails' %}"><img src="/static/img/blog/blog-1.webp" alt=""></a>
+						</div>
+						<div class="blog__area-item-content">
+							<div class="blog__area-item-content-meta">
+								<ul>
+									<li><a href="#"><span>Haircutting</span></a></li>
+									<li><a href="#"><i class="fal fa-calendar-alt"></i>30 June, 2022</a></li>
+								</ul>
+							</div>
+							<h4><a href="{% url 'blogdetails' %}">We are a Haircut Salon Based in South Melbourne</a></h4>
+							<a href="{% url 'blogdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>	
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-4 col-lg-6 col-md-6 md-mb-30">
+					<div class="blog__area-item">
+						<div class="blog__area-item-image">
+							<a href="{% url 'blogdetails' %}"><img src="/static/img/blog/blog-2.webp" alt=""></a>
+						</div>
+						<div class="blog__area-item-content">
+							<div class="blog__area-item-content-meta">
+								<ul>
+									<li><a href="#"><span>Hair Color</span></a></li>
+									<li><a href="#"><i class="fal fa-calendar-alt"></i>25 June, 2022</a></li>
+								</ul>
+							</div>
+							<h4><a href="{% url 'blogdetails' %}">Online booking appoitment For Salon, Hair Salon</a></h4>
+							<a href="{% url 'blogdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>	
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-4 col-lg-6 col-md-6">
+					<div class="blog__area-item">
+						<div class="blog__area-item-image">
+							<a href="{% url 'blogdetails' %}"><img src="/static/img/blog/blog-3.webp" alt=""></a>
+						</div>
+						<div class="blog__area-item-content">
+							<div class="blog__area-item-content-meta">
+								<ul>
+									<li><a href="#"><span>Lather Shave</span></a></li>
+									<li><a href="#"><i class="fal fa-calendar-alt"></i>21 June, 2022</a></li>
+								</ul>
+							</div>
+							<h4><a href="{% url 'blogdetails' %}">Customising your shave is Fun and easy</a></h4>
+							<a href="{% url 'blogdetails' %}" class="simple-btn">Read More<i class="far fa-angle-double-right"></i></a>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> {% endcomment %}
+	<!-- Blog Area End -->	
+	<!-- Footer Area Start -->	
+	{% include "footer.html" %}
+	<!-- Footer Area End -->	
+	<!-- Scroll Btn Start -->
+	<div class="scroll-up">
+		<svg class="scroll-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102"><path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" /> </svg>
+	</div>
+	<!-- Scroll Btn End -->
+	<!-- Main JS -->
+	<script src="/static/js/jquery-3.6.0.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="/static/js/bootstrap.min.js"></script>
+	<!-- Counter up -->
+	<script src="/static/js/jquery.counterup.min.js"></script>
+	<!-- Popper JS -->
+	<script src="/static/js/popper.min.js"></script>
+	<!-- Magnific JS -->
+	<script src="/static/js/jquery.magnific-popup.min.js"></script>
+	<!-- Swiper JS -->
+	<script src="/static/js/swiper-bundle.min.js"></script>
+	<!-- Waypoints JS -->
+	<script src="/static/js/jquery.waypoints.min.js"></script>
+	<!-- Mean menu -->
+	<script src="/static/js/jquery.meanmenu.min.js"></script>
+	<!-- Custom JS -->
+	<script src="/static/js/custom.js"></script>
+</body>
+
+</html>

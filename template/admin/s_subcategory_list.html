@@ -1,0 +1,40 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Subcategories - Shree Laxmi Watch Co.{% endblock %}
+{% block header %}Subcategories{% endblock %}
+
+{% block content %}
+<div class="category-table">
+    <h2>Service Subcategories</h2>
+    <a href="{% url 's_add_subcategory' %}" class="btn btn-success mb-3">Add Service Subcategory</a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subcategory in subcategories %}
+                <tr>
+                    <td>{{ subcategory.id }}</td>
+                    <td class="font-weight-bold">{{ subcategory.name }}</td>
+                    <td>{{ subcategory.category.name }}</td>
+                    <td>
+                        <a href="{% url 's_edit_subcategory' subcategory.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <form method="post" action="{% url 's_delete_subcategory' subcategory.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this subcategory?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

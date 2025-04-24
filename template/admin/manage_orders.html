@@ -1,0 +1,37 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Manage Orders</h2>
+    {% comment %} <a href="{% url 'add_order' %}" class="btn btn-primary mb-3">Add Order</a> {% endcomment %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.name }}</td>
+                <td>{{ order.status }}</td>
+                <td>&#8377;{{ order.total_price }}</td>
+                <td>{{ order.phone_number }}</td>
+                <td>
+                    <a href="{% url 'update_order' order.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="{% url 'delete_order' order.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

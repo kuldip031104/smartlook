@@ -1,0 +1,114 @@
+<!-- Header Area Start -->
+<div class="header__sticky one">
+    <div class="header__area">
+        <div class="container custom__container">
+            <div class="header__area-menubar">
+                <div class="header__area-menubar-left">
+                    <div class="header__area-menubar-left-logo">
+                        <a href="/"><img src="/static/img/logo.png" alt=""></a>                        
+                        <div class="responsive-menu"></div>
+                    </div>
+                    {% comment %} <div class="header__area-menubar-left-contact">
+                        <div class="header__area-menubar-left-contact-icon">
+                            <i class="fal fa-phone-alt"></i>
+                        </div>                        
+                        <div class="header__area-menubar-left-contact-info">
+                            <h6><a href="tel:+125(895)658">Hotline +125 (895) 658</a></h6>
+                        </div>
+                    </div> {% endcomment %}
+                </div>
+                <div class="header__area-menubar-right">
+                    <div class="header__area-menubar-right-menu menu-responsive">                        
+                        <ul id="mobilemenu">
+                            <li><a href="/">Home</a></li>
+                            {% comment %} <li class="menu-item-has-children"><a href="{% url 'appointment' %}">Appointment</a> {% endcomment %}
+                            {% comment %} <li><a href="{% url 'appointment' %}">Appointment</a>                                 {% endcomment %}
+                                {% comment %} <li class="menu-item-has-children"><a href="#">Services</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{% url 'male' %}">Male</a></li>
+                                        <li><a href="{% url 'female' %}">Female</a></li>
+                                        <li><a href="{% url 'appointment' %}">Appointment</a></li>
+                                    </ul>
+                                </li> {% endcomment %}
+                                <li>
+                                    <a href="{% url 'servicecategory' %}">Services</a>
+                                    <ul>
+                                        {% for category in categories %}
+                                            <li>
+                                                <a href="{% url 'service_sub_category' category.name %}">{{ category.name }}</a>
+                                            </li>
+                                        {% empty %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                
+                            </li>
+                            <li><a href="{% url 'productcategory' %}">Products</a>{% for category in categories %}
+                                <li><a href="{% url 'subcategory' category.name %}">{{ category.name }}</a>
+                                    <ul>
+                                        {% for subcategory in category.subcategories.all %}
+                                            <li class="menu-item-has-children">
+                                                <a href="{% url 'product' subcategory.name %}">{{ subcategory.name }}</a>
+                                                <ul class="dropdown">
+                                                    {% for product in subcategory.products.all|slice:":3" %}
+                                                        <li><a href="#">{{ product.name }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                            </li>
+                            
+                           
+                                    <li><a href="{% url 'about' %}">About us</a></li>
+                                   
+                            </li>
+                            <li><a href="{% url 'contact' %}">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="header__area-menubar-right-box">
+                        <div class="header__area-menubar-right-box-search" style="margin-right: 20px;">
+                            {% comment %} <div class="search">    
+                                <span class="header__area-menubar-right-box-search-icon open" style="color: white;"><i class="fal fa-search"></i></span>
+                            </div>
+                            <div class="header__area-menubar-right-box-search-box">
+                                <form>
+                                    <input type="search" placeholder="Search Here.....">
+                                    <button type="submit"><i class="fal fa-search"></i></button>
+                                </form> 
+                                <span class="header__area-menubar-right-box-search-box-icon">
+                                    <i class="fal fa-times"></i>
+                                </span>
+                            </div>  {% endcomment %}
+                        </div> 
+                        <!-- Cart and User Icons -->
+                        <div class="header__area-menubar-right-box-icons" style="display: flex; align-items: center; gap: 20px;">
+                            {% if request.session.user_id%}
+                            <a href="{% url 'cart' %}" class="cart-icon" style="color: white;">
+                                <i class="fal fa-shopping-cart"></i>
+                            </a>
+                            {% endif %}
+                            <div class="dropdown">
+                                <a href="#" class="user-icon">
+                                    <i class="fal fa-user"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    {% if request.session.user_id%}
+                                        <li><a href="{% url 'manageprofile' %}">Manage Profile</a></li>
+                                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'login' %}">Login</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header Area End -->

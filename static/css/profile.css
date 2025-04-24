@@ -1,0 +1,107 @@
+/* General Styles*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; 
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Profile Container */
+  .profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #f8f9fa; /* Light gray background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .profile-container h1, 
+  .profile-container h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .profile-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .profile-container li {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  .profile-container strong {
+    color: #ff9900;
+  }
+  
+  /* Profile Table */
+  .profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    color: #222;
+  }
+  
+  .profile-table th, 
+  .profile-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .profile-table th {
+    background-color: #f2f2f2;
+    color: #222;
+  }
+  
+  /* Success & Error Messages */
+  .success-message {
+    color: green;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  /* Edit Button */
+  .edit-btn, 
+  .btn-edit {
+    display: block;
+    width: 100%;
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+  }
+  
+  .edit-btn:hover, 
+  .btn-edit:hover {
+    background-color: #0056b3; /* Darker blue */
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #0c0c0c;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+  } 
+  

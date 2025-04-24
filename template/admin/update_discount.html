@@ -1,0 +1,12 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Update Discount{% endblock %}
+{% block content %}
+    <h2>Update Discount: {{ discount.offer_desc }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Update Discount</button>
+        <a href="{% url 'manage_discounts' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

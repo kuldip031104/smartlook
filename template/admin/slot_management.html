@@ -1,0 +1,37 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}Manage Slots{% endblock %}
+{% block header %}Manage Slots{% endblock %}
+{% block content %}
+<h2>Manage Slot</h2>
+    <a href="{% url 'add_slot' %}" class="btn btn-success mb-3">Add Slot</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Stylist</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Booked</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot in slots %}
+            <tr>
+                <td>{{ slot.stylist.name }}</td>
+                <td>{{ slot.date }}</td>
+                <td>{{ slot.start_time }}</td>
+                <td>{{ slot.end_time }}</td>
+                <td>{{ slot.is_booked|yesno:"Yes,No" }}</td>
+                <td>
+                    <a href="{% url 'update_slot' slot.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="{% url 'delete_slot' slot.id %}" method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

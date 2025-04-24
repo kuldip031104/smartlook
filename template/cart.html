@@ -1,0 +1,448 @@
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f8f8f8;
+      }
+      .cart-container {
+        max-width: 1000px;
+        margin: auto;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+      }
+      .cart-item img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+      .cart-item-info {
+        flex-grow: 1;
+        margin-left: 15px;
+      }
+      .cart-item h3 {
+        margin: 5px 0;
+        font-size: 16px;
+      }
+      .cart-item p {
+        font-size: 14px;
+        color: #555;
+      }
+      .quantity-controls {
+        display: flex;
+        align-items: center;
+      }
+      .quantity-controls button {
+        background-color: #ff9800;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 0 5px;
+        font-size: 16px;
+      }
+      .quantity-controls span {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .total-price {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 15px;
+      }
+      .empty-cart {
+        text-align: center;
+        color: #777;
+        font-size: 18px;
+        margin-top: 20px;
+      }
+      .checkout-button,
+      .menu-button {
+        display: block;
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 15px;
+        text-align: center;
+      }
+      .menu-button {
+        background-color: #007bff;
+      }
+      .remove-icon {
+        cursor: pointer;
+        color: #dc3545;
+        font-size: 18px;
+        margin-left: 10px;
+      }
+    </style>
+    {% include "head.html" %}
+  </head>
+  <body>
+    <div class="container-xxl bg-white p-0">
+      <div class="container-xxl position-relative p-0">
+        {% include "header.html" %}
+        <div class="container-xxl py-5 bg-dark hero-header mb-5"></div>
+      </div>
+
+      <div class="cart-container">
+        <h2>Your Cart</h2>
+
+        {% if cart %}
+          {% for category, items in cart.items %}
+            <h3>{{ category }}</h3>
+            {% for item in items %}
+              <div class="cart-item" id="cart-item-{{ item.id }}">
+                <img src="{{ item.image }}" alt="{{ item.name }}" />
+                <div class="cart-item-info">
+                  <h3>{{ item.name }}</h3>
+                  <p><strong>₹ <span id="price-{{ item.id }}">{{ item.price }}</span></strong></p>
+                  <p>Subcategory: <strong>{{ item.subcategory }}</strong></p>
+                </div>
+                <div class="quantity-controls">
+                  <button onclick="updateQuantity('{{ item.id }}', 'decrease')">-</button>
+                  <span id="quantity-{{ item.id }}">{{ item.quantity }}</span>
+                  <button
+                    id="increase-btn-{{ item.id }}"
+                    onclick="updateQuantity('{{ item.id }}', 'increase')"
+                    {% if item.quantity >= item.stock %}disabled{% endif %}
+                  >+</button>
+                </div>
+                <p>Subtotal: ₹ <span id="subtotal-{{ item.id }}" class="subtotal">{{ item.price|floatformat:2 }}</span></p>
+                <!-- 🗑️ Remove Icon -->
+                <i class="fas fa-trash remove-icon" onclick="removeFromCart('{{ item.id }}')"></i>
+              </div>
+            {% endfor %}
+          {% endfor %}
+
+          <div class="total-price">
+            Total: ₹ <span id="total-price">{{ total_price }}</span>
+          </div>
+
+          <a href="{% url 'checkout' %}" class="checkout-button">Proceed to Checkout</a>
+          <a href="javascript:history.back()" class="menu-button">Back To Products</a>
+        {% else %}
+          <p class="empty-cart">Your cart is empty.</p>
+          <a href="javascript:history.back()" class="menu-button">Back To Products</a>
+        {% endif %}
+      </div>
+
+      <script>
+        function updateQuantity(cartId, action) {
+          $.ajax({
+            url: `/update_cart/${cartId}/${action}/`,
+            method: "GET",
+            success: function (response) {
+              if (response.removed) {
+                $("#cart-item-" + cartId).remove();
+              } else {
+                let quantity = response.quantity;
+                $("#quantity-" + cartId).text(quantity);
+
+                let pricePerItem = parseFloat($("#price-" + cartId).text());
+                let newSubtotal = quantity * pricePerItem;
+                $("#subtotal-" + cartId).text(newSubtotal.toFixed(2));
+
+                let newTotal = 0;
+                $(".subtotal").each(function () {
+                  newTotal += parseFloat($(this).text());
+                });
+
+                $("#total-price").text(newTotal.toFixed(2));
+              }
+            },
+            error: function (xhr) {
+              alert(xhr.responseJSON?.error || "Something went wrong.");
+            }
+          });
+        }
+
+        function removeFromCart(cartId) {
+          if (!confirm("Are you sure you want to remove this item from the cart?")) return;
+
+          $.ajax({
+            url: `/delete_cart_item/${cartId}/`,
+            type: "POST",
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },
+            success: function (response) {
+              $("#cart-item-" + cartId).remove();
+
+              let newTotal = 0;
+              $(".subtotal").each(function () {
+                newTotal += parseFloat($(this).text());
+              });
+
+              $("#total-price").text(newTotal.toFixed(2));
+
+              if ($(".cart-item").length === 0) {
+                $(".cart-container").html(`
+                  <p class="empty-cart">Your cart is empty.</p>
+                  <a href="javascript:history.back()" class="menu-button">Back To Products</a>
+                `);
+              }
+            },
+            error: function (xhr) {
+              alert(xhr.responseJSON?.error || "Error removing item.");
+            }
+          });
+        }
+      </script>
+
+      {% include "footer.html" %}
+    </div>
+  </body>
+</html> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+      /* same styles as before (unchanged) */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f8f8f8;
+      }
+      .cart-container {
+        max-width: 1000px;
+        margin: auto;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+      }
+      .cart-item img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+      .cart-item-info {
+        flex-grow: 1;
+        margin-left: 15px;
+      }
+      .cart-item h3 {
+        margin: 5px 0;
+        font-size: 16px;
+      }
+      .cart-item p {
+        font-size: 14px;
+        color: #555;
+      }
+      .quantity-controls {
+        display: flex;
+        align-items: center;
+      }
+      .quantity-controls button {
+        background-color: #ff9800;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 0 5px;
+        font-size: 16px;
+      }
+      .quantity-controls span {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .total-price {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 15px;
+      }
+      .empty-cart {
+        text-align: center;
+        color: #777;
+        font-size: 18px;
+        margin-top: 20px;
+      }
+      .checkout-button,
+      .menu-button {
+        display: block;
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 15px;
+        text-align: center;
+      }
+      .menu-button {
+        background-color: #007bff;
+      }
+      .remove-icon {
+        cursor: pointer;
+        color: #dc3545;
+        font-size: 18px;
+        margin-left: 10px;
+      }
+    </style>
+
+    {% include "head.html" %}
+  </head>
+  <body>
+    <div class="container-xxl bg-white p-0">
+      <div class="container-xxl position-relative p-0">
+        {% include "header.html" %}
+        <div class="container-xxl py-5 bg-dark hero-header mb-5"></div>
+      </div>
+
+      <div class="cart-container">
+        <h2>Your Cart</h2>
+
+        {% if cart %}
+          {% for category, items in cart.items %}
+            <h3>{{ category }}</h3>
+            {% for item in items %}
+              <div class="cart-item" id="cart-item-{{ item.id }}">
+                <img src="{{ item.image }}" alt="{{ item.name }}" />
+                <div class="cart-item-info">
+                  <h3>{{ item.name }}</h3>
+                  <p><strong>₹ <span id="price-{{ item.id }}">{{ item.price }}</span></strong></p>
+                  <p>Subcategory: <strong>{{ item.subcategory }}</strong></p>
+                  
+                </div>
+                <div class="quantity-controls">
+                  <button onclick="updateQuantity('{{ item.id }}', 'decrease')">-</button>
+                  <span id="quantity-{{ item.id }}">{{ item.quantity }}</span>
+                  <button
+                    id="increase-btn-{{ item.id }}"
+                    data-stock="{{ item.stock }}"
+                    onclick="updateQuantity('{{ item.id }}', 'increase')"
+                    {% if item.quantity >= item.stock %}disabled{% endif %}
+                  >+</button>
+                </div>
+                <p>Subtotal: ₹ <span id="subtotal-{{ item.id }}" class="subtotal">{{ item.price|floatformat:2 }}</span></p>
+                <i class="fas fa-trash remove-icon" onclick="removeFromCart('{{ item.id }}')"></i>
+              </div>
+            {% endfor %}
+          {% endfor %}
+
+          <div class="total-price">
+            Total: ₹ <span id="total-price">{{ total_price }}</span>
+          </div>
+
+          <a href="{% url 'checkout' %}" class="checkout-button">Proceed to Checkout</a>
+          <a href="javascript:history.back()" class="menu-button">Back To Products</a>
+        {% else %}
+          <p class="empty-cart">Your cart is empty.</p>
+          <a href="javascript:history.back()" class="menu-button">Back To Products</a>
+        {% endif %}
+      </div>
+
+      <script>
+        function updateQuantity(cartId, action) {
+          $.ajax({
+            url: `/update_cart/${cartId}/${action}/`,
+            method: "GET",
+            success: function (response) {
+              if (response.removed) {
+                $("#cart-item-" + cartId).remove();
+              } else {
+                let quantity = response.quantity;
+                $("#quantity-" + cartId).text(quantity);
+
+                let pricePerItem = parseFloat($("#price-" + cartId).text());
+                let newSubtotal = quantity * pricePerItem;
+                $("#subtotal-" + cartId).text(newSubtotal.toFixed(2));
+
+                let newTotal = 0;
+                $(".subtotal").each(function () {
+                  newTotal += parseFloat($(this).text());
+                });
+
+                $("#total-price").text(newTotal.toFixed(2));
+
+                // Dynamic button stock control
+                const increaseBtn = $("#increase-btn-" + cartId);
+                const stock = parseInt(increaseBtn.data("stock"));
+
+                if (quantity >= stock) {
+                  increaseBtn.prop("disabled", true);
+                } else {
+                  increaseBtn.prop("disabled", false);
+                }
+              }
+            },
+            error: function (xhr) {
+              alert(xhr.responseJSON?.error || "Something went wrong.");
+            }
+          });
+        }
+
+        function removeFromCart(cartId) {
+          if (!confirm("Are you sure you want to remove this item from the cart?")) return;
+
+          $.ajax({
+            url: `/delete_cart_item/${cartId}/`,
+            type: "POST",
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },
+            success: function (response) {
+              $("#cart-item-" + cartId).remove();
+
+              let newTotal = 0;
+              $(".subtotal").each(function () {
+                newTotal += parseFloat($(this).text());
+              });
+
+              $("#total-price").text(newTotal.toFixed(2));
+
+              if ($(".cart-item").length === 0) {
+                $(".cart-container").html(`
+                  <p class="empty-cart">Your cart is empty.</p>
+                  <a href="javascript:history.back()" class="menu-button">Back To Products</a>
+                `);
+              }
+            },
+            error: function (xhr) {
+              alert(xhr.responseJSON?.error || "Error removing item.");
+            }
+          });
+        }
+      </script>
+
+      {% include "footer.html" %}
+    </div>
+  </body>
+</html>
+

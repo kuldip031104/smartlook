@@ -1,0 +1,14 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}{% if form.instance.pk %}Edit Appointment{% else %}Add Appointment{% endif %}{% endblock %}
+{% block header %}{% if form.instance.pk %}Edit Appointment{% else %}Add Appointment{% endif %}{% endblock %}
+{% block content %}
+    <h2>{% if form.instance.pk %}Edit Appointment{% else %}Add Appointment{% endif %}</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">
+            {% if form.instance.pk %}Update{% else %}Add{% endif %} Appointment
+        </button>
+    </form>
+{% endblock %}

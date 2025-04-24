@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smartlook</title>
+    <!-- Favicons -->
+    <link rel="icon" type="/static/image/png" href="/static/img/favicon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/css/all.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/sass/style.css"> 
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark px-4">
+        <a class="navbar-brand text-white" href="{% url 'subcategory' category_name=subcategory.category.name %}">Back to Subcategories</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">{{ subcategory.name }}</h1>
+        <div class="row justify-content-center">
+            {% for product in product %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 d-flex flex-column shadow-sm">
+                        <!-- Image Container -->
+                        <div class="image-container d-flex justify-content-center align-items-center" style="height: 250px; overflow: hidden;">
+                            <a href="{% url 'product_detail' product_id=product.id %}">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}" style="max-height: 100%; width: auto;">
+                                {% else %}
+                                    <img src="{% static 'images/default_food.png' %}" class="card-img-top img-fluid" alt="No Image Available">
+                                {% endif %}
+                            </a>
+                        </div>
+
+
+                        <!-- Card Body -->
+                        <div class="card-body text-center">
+                            <h3 class="card-title">{{ product.name }}</h3>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="fw-bold text-success">Price: ₹{{ product.price }}</p>
+                        </div>
+                        <!-- Action Buttons -->
+                        <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center px-3 py-2">
+                            <button class="btn btn-primary d-flex align-items-center add-to-cart" 
+                                    data-product-id="{{ product.id }}">
+                                <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                            </button>
+                            {% comment %} <a href="#" class="btn btn-outline-danger d-flex align-items-center">
+                                <i class="far fa-heart me-2"></i> Wishlist
+                            </a> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">No Products available.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+    <!-- jQuery (Required for AJAX) -->
+    <script src="/static/js/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".add-to-cart").click(function() {
+    let productId = $(this).data("product-id");
+
+    $.ajax({
+        url: "/add_to_cart/",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            product_id: productId,
+            quantity: 1
+        }),
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+        success: function(response) {
+            if (response.success) {
+                alert("Item added to cart!");
+                updateCartCount(response.cart_total_items);
+            } else {
+                alert("Failed to add item to cart.");
+            }
+        },
+        error: function() {
+            alert("Error adding item to cart.");
+        }
+    });
+});
+
+
+            function updateCartCount(count) {
+                let cartCounter = $("#cart-count");
+                if (cartCounter.length) {
+                    cartCounter.text(count);
+                }
+            }
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    let cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        let cookie = cookies[i].trim();
+                        if (cookie.startsWith(name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Shree Laxmi Watch Co.</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/feather/feather.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" />
+    <style>
+        .main-panel {
+            margin-left: 250px;
+            flex-grow: 1;
+        }
+
+        .content-wrapper {
+            padding: 20px;
+            margin-top: 70px; /* Space for navbar */
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        .category-table {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-table h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e3a59;
+            margin-bottom: 20px;
+        }
+
+        .category-table .table th,
+        .category-table .table td {
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #f1f1f1;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        .btn-edit {
+            background-color: #5c6bc0;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #3f51b5;
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #d32f2f;
+        }
+        .btn-submit {
+            background-color: #5c6bc0;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            border-color: white;
+        }
+        .btn-submit:hover {
+            background-color: #3f51b5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper">
+            <!-- Sidebar -->
+            {% include 'partials/sidebar.html' %}
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="form-container">
+                        <h2 class="form-title">
+                            {% if brand_id %}
+                                Edit Brand
+                            {% else %}
+                                Add New Brand
+                            {% endif %}
+                        </h2>
+
+                        <!-- Custom message -->
+                        <div class="alert alert-info text-center">
+                            <strong>Important:</strong> Please ensure the brand details are correct before submitting.
+                        </div>
+
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Display form errors if any -->
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                <li>{{ field.label }}:
+                                                    <ul>
+                                                        {% for error in field.errors %}
+                                                            <li>{{ error }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <!-- Brand Name -->
+                            <div class="mb-3">
+                                <label for="brand_name" class="form-label">Brand Name</label>
+                                <input type="text" class="form-control" id="brand_name" name="brand_name" placeholder="Enter Brand Name" value="{{ form.brand_name.value }}" required>
+                            </div>
+
+                            {% if brand.brand_image %}
+                            <!-- Current Image -->
+                            <div class="mb-3">
+                                <label for="current_image" class="form-label">Current Image</label>
+                                <div>
+                                    <img src="{{ brand.brand_image.url }}" alt="Current Image" style="max-width: 100px; margin-bottom: 10px;">
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Brand Image Field -->
+                            <div class="mb-3">
+                                <label for="brand_image" class="form-label">Brand Image (Optional)</label>
+                                <input type="file" class="form-control" id="brand_image" name="brand_image" accept="image/*">
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn-submit">
+                                {% if brand_id %} Update Brand {% else %} Add Brand {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            
+            <!-- Footer -->
+            <footer class="footer">
+                <span>© 2024 Shree Laxmi Watch Co. Designed by Som Lalit College</span>
+            </footer>
+        </div>
+    </div>
+
+    <!-- plugins:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/template.js' %}"></script>
+
+  
+</body>
+
+</html>

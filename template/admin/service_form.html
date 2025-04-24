@@ -1,0 +1,34 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}{% if service %}Edit{% else %}Add{% endif %} Service - Shree Laxmi Watch Co.{% endblock %}
+{% block header %}{% if service %}Edit{% else %}Add{% endif %} Service{% endblock %}
+{% block content %}
+    <div class="form-container">
+        <h2>{% if service %}Edit{% else %}Add{% endif %} Service</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="name">Service Name</label>
+                <input type="text" id="name" name="name" class="form-control" 
+                       value="{% if service %}{{ service.name }}{% endif %}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="subcategory">Subcategory</label>
+                <select id="subcategory" name="subcategory" class="form-control" required>
+                    <option value="" disabled selected>Select a subcategory</option>
+                    {% for subcategory in subcategories %}
+                        <option value="{{ subcategory.id }}"
+                            {% if service and service.subcategory.id == subcategory.id %}selected{% endif %}>
+                            {{ subcategory.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success">{% if service %}Update{% else %}Add{% endif %} Service</button>
+        </form>
+    </div>
+{% endblock %}

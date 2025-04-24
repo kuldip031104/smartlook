@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartlook Login</title>
+  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="icon" type="image/png" href="/static/img/favicon.png">
+</head>
+<body>
+  
+  <div class="wrapper">
+<form id="login-form" method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <h2>Login</h2>
+    
+    <div class="input-field">
+        <input type="email" id="email" name="email" required>
+        <label>Enter your email</label>
+    </div>
+    
+    <div class="input-field">
+        <input type="password" id="password" name="password" required>
+        <label>Enter your password</label>
+    </div>
+    
+    <div class="forget">
+        <a href="{% url 'password_reset' %}" id="forgetline">Forgot password?</a>
+    </div>
+    
+    <button type="submit">Log In</button>
+    
+    <div class="register">
+        <p>Don't have an account? <a href="{% url 'signup' %}">Register</a></p>
+    </div>
+</form>
+
+  </div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("#login-form").addEventListener("submit", function (event) {
+        event.preventDefault(); 
+
+        let formData = new FormData(this);
+
+        console.log("🚀 Sending POST request to:", "{% url 'login' %}");
+        console.log("📩 Form Data:", Object.fromEntries(formData.entries())); // Debugging form data
+
+        fetch("{% url 'login' %}", {
+            method: "POST",
+            body: formData,
+            headers: { "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("📩 Server Response:", data);
+            if (data.status === "success") {
+                window.location.href = "{% url 'home' %}";
+            } else {
+                alert("Login Failed: " + data.message);
+            }
+        })
+        .catch(error => console.error("❌ Fetch Error:", error));
+    });
+});
+</script>
+
+
+</html>

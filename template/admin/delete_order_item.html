@@ -1,0 +1,12 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Delete Order Item</h2>
+    <p>Are you sure you want to delete Order Item <strong>{{ order_item.id }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'manage_order_items' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

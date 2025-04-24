@@ -1,0 +1,32 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Manage Order Assignments</h2>
+    <a href="{% url 'add_order_assignment' %}" class="btn btn-primary mb-3">Add Order Assignment</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Order</th>
+                <th>Delivery Person</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr>
+                <td>{{ assignment.id }}</td>
+                <td>{{ assignment.order }}</td>
+                <td>{{ assignment.delivery_person }}</td>
+                <td>{{ assignment.status }}</td>
+                <td>
+                    <a href="{% url 'update_order_assignment' assignment.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_order_assignment' assignment.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
